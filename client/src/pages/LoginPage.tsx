@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -24,15 +25,46 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-        <input name="password" placeholder="Password" value={form.password} onChange={handleChange} type="password" required />
-        <button type="submit">Login</button>
-      </form>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{ mt: 4, mb: 2 }}>
+        <Typography variant="h4" component="h1" gutterBottom>Login</Typography>
+      </Box>
+      {error && <Alert severity="error">{error}</Alert>}
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
+          autoFocus
+          value={form.username}
+          onChange={handleChange}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Login
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

@@ -38,3 +38,11 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+class OccurrenceException(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='exceptions')
+    # Store the original start time of the occurrence that is being deleted
+    start_time = models.DateTimeField()
+
+    def __str__(self):
+        return f"Exception for '{self.event.title}' at {self.start_time.strftime('%Y-%m-%d %H:%M')}"

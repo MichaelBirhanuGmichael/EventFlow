@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event, RecurrenceRule
+from .models import Event, RecurrenceRule, OccurrenceException
 
 class RecurrenceRuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,3 +46,8 @@ class EventSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+
+class OccurrenceExceptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OccurrenceException
+        fields = '__all__'

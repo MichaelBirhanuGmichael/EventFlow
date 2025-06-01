@@ -1,0 +1,90 @@
+.fc {
+  /* Apply basic Material UI typography */
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.fc .fc-toolbar {
+  /* Basic spacing and alignment for toolbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5em;
+  padding: 0 1em;
+}
+
+.fc .fc-button {
+  /* Style buttons to look like Material UI buttons */
+  background-color: #1976d2; /* Primary color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 0 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 2px 2px -1px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+}
+
+.fc .fc-button:hover {
+  background-color: #1565c0; /* Darker shade on hover */
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 14px 24px 0px rgba(0,0,0,0.12);
+}
+
+.fc .fc-button:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.fc .fc-button-primary {
+  /* Ensure primary buttons use the primary color */
+  background-color: #1976d2;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: #1565c0;
+}
+
+.fc .fc-button-group {
+    /* Remove default button group border/shadow */
+    box-shadow: none;
+}
+
+.fc .fc-event {
+  /* Style events */
+  background-color: #3f51b5; /* Secondary color */
+  color: white;
+  border: 1px solid #3f51b5;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.fc .fc-event-dot {
+  /* Style event dots */
+  background-color: white;
+}
+
+.fc .fc-daygrid-day-number {
+  /* Style day numbers */
+  padding: 4px;
+}
+
+.fc th {
+    /* Style table headers (days of week) */
+    background-color: #f5f5f5; /* Light grey background */
+    color: rgba(0, 0, 0, 0.87); /* Dark text */
+    border: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+.fc td {
+    /* Style table cells (days) */
+     border: 1px solid #ddd;
+}
+
+.fc .fc-day-other {
+    /* Style days from other months */
+    opacity: 0.5;
+} 

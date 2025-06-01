@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import login, logout
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -47,5 +47,12 @@ class LogoutView(APIView):
             logout(request)
             return Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
         return Response({'detail': 'Not authenticated.'}, status=status.HTTP_400_BAD_REQUEST)
+
+class CurrentUserView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 # Create your views here.
