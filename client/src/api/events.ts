@@ -25,4 +25,9 @@ export const updateEvent = async (id: number, data: any) => {
 export const deleteEvent = async (id: number) => {
   const res = await axios.delete(`${API_BASE}/events/${id}/`);
   return res.data;
+};
+
+export const getEventOccurrences = async (id: number, count: number = 10) => {
+  const res = await axios.get(`${API_BASE}/events/${id}/occurrences/?count=${count}`);
+  return res.data;
 }; 
