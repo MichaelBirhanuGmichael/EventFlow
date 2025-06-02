@@ -153,7 +153,7 @@ function AppContent() {
           mt: 4,
           mb: 4,
           px: { xs: 0, sm: 2, md: 4 },
-          width: '100vw',
+          width: '90vw',
           minHeight: 'calc(100vh - 64px)',
           display: 'flex',
           flexDirection: 'column',

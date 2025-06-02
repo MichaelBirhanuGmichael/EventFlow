@@ -1,3 +1,29 @@
+# EventFlow – Event Scheduler with Complex Recurrence
+
+**Submission by Michael Birhanu**  
+*Completed: June 2, 2025, 04:51 PM EAT*
+
+## Technology Stack
+
+- **Frontend:** React 18, Vite, TypeScript, Material-UI (MUI v5)
+- **Backend:** Django 4, Django REST Framework (DRF), SimpleJWT
+- **Database:** PostgreSQL
+- **API Auth:** JWT (30-day expiry)
+- **Containerization:** Docker, Docker Compose
+- **Web Server/Proxy:** Nginx (serves static frontend, proxies `/api` to backend, handles CORS)
+- **DevOps:** Environment-driven config, production-ready Dockerfiles, automatic migrations
+
+## Project Highlights
+
+- **Complex Recurring Events:** Full support for recurring event rules and exceptions
+- **CRUD Operations:** Create, read, update, delete events and manage user accounts
+- **Form Validation:** Robust client- and server-side validation
+- **Authentication:** Secure JWT-based login/register/logout flows
+- **Responsive UI:** Modern, mobile-friendly design with MUI
+- **API Documentation:** See below for endpoints and usage
+
+---
+
 # EventFlow
 
 EventFlow is a full-stack event calendar application with support for recurring events, user authentication, and a modern React frontend.

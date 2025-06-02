@@ -12,21 +12,26 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env if present
+load_dotenv(os.path.join(BASE_DIR.parent, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-aju%w^t_c_x6_3v=ukf759l_^4+$8j!o1d686g2*8&wv5s%h#%'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-aju%w^t_c_x6_3v=ukf759l_^4+$8j!o1d686g2*8&wv5s%h#%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,11 +89,11 @@ WSGI_APPLICATION = 'eventflow_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'event_flow'),
-        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'admin1234'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'NAME': os.environ.get('DB_NAME', os.environ.get('POSTGRES_DB', 'event_flow')),
+        'USER': os.environ.get('DB_USER', os.environ.get('POSTGRES_USER', 'postgres')),
+        'PASSWORD': os.environ.get('DB_PASSWORD', os.environ.get('POSTGRES_PASSWORD', 'admin1234')),
+        'HOST': os.environ.get('DB_HOST', os.environ.get('POSTGRES_HOST', 'db')),
+        'PORT': os.environ.get('DB_PORT', os.environ.get('POSTGRES_PORT', '5432')),
     }
 }
 
@@ -142,6 +147,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+}
+
+# JWT token lifetime settings (30 days)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
 }
 
 # CORS settings for React frontend

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8000/api'; // Updated for backend URL
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
 
 // Helper function to get auth token from local storage
 const getAuthToken = () => {

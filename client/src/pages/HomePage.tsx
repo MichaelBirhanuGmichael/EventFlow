@@ -1,6 +1,6 @@
 import React from 'react';
 import UpcomingEventsList from '../components/UpcomingEventsList';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, GridLegacy as Grid } from '@mui/material';
 
 /**
  * HomePage component serves as the main landing page of the application.
@@ -16,12 +16,14 @@ const HomePage: React.FC = () => {
         This is the home page where you can see your upcoming events.
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8} component="div">
-          {/* Reserved for future features such as a calendar preview */}
-        </Grid>
-        <Grid item xs={12} md={6} component="div">
+        <Grid item xs={12} md={6}>
           <UpcomingEventsList />
         </Grid>
+        <Grid item xs={12} md={6}>
+          {/* Reserved for future features such as a calendar preview */}
+        </Grid>
+
+
       </Grid>
     </Box>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Checkbox, FormControlLabel, Select, MenuItem, InputLabel, FormControl, Alert } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -125,12 +125,23 @@ const EventForm: React.FC<EventFormProps> = ({ initialValues, onSubmit, submitTe
     }));
   };
 
-  const handleRecurrenceChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
+  // Fix: Update handleRecurrenceTextFieldChange and handleRecurrenceSelectChange to return full EventFormValues
+  const handleRecurrenceTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues((prev) => ({
       ...prev,
       recurrence_rule: {
-        ...prev.recurrence_rule,
+        ...(prev.recurrence_rule || {}),
+        [name]: name === 'interval' ? Number(value) : value,
+      } as RecurrenceRule,
+    }));
+  };
+  const handleRecurrenceSelectChange = (e: SelectChangeEvent<string | number>) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({
+      ...prev,
+      recurrence_rule: {
+        ...(prev.recurrence_rule || {}),
         [name]: name === 'interval' ? Number(value) : value,
       } as RecurrenceRule,
     }));
@@ -294,7 +305,7 @@ const EventForm: React.FC<EventFormProps> = ({ initialValues, onSubmit, submitTe
                 name="frequency"
                 value={values.recurrence_rule.frequency}
                 label="Frequency"
-                onChange={handleRecurrenceChange}
+                onChange={handleRecurrenceSelectChange}
               >
                 <MenuItem value="DAILY">Daily</MenuItem>
                 <MenuItem value="WEEKLY">Weekly</MenuItem>
@@ -312,7 +323,7 @@ const EventForm: React.FC<EventFormProps> = ({ initialValues, onSubmit, submitTe
               name="interval"
               type="number"
               value={values.recurrence_rule.interval}
-              onChange={handleRecurrenceChange}
+              onChange={handleRecurrenceTextFieldChange}
               error={!!errors.interval}
               helperText={errors.interval}
             />
@@ -324,7 +335,7 @@ const EventForm: React.FC<EventFormProps> = ({ initialValues, onSubmit, submitTe
                 label="Weekdays (comma-separated, e.g., Mon,Tue)"
                 name="weekdays"
                 value={values.recurrence_rule.weekdays}
-                onChange={handleRecurrenceChange}
+                onChange={handleRecurrenceTextFieldChange}
               />
             )}
             {values.recurrence_rule.frequency === 'MONTHLY' && (
@@ -335,12 +346,20 @@ const EventForm: React.FC<EventFormProps> = ({ initialValues, onSubmit, submitTe
                 label="Relative Day (e.g., first Monday)"
                 name="relative_day"
                 value={values.recurrence_rule.relative_day}
-                onChange={handleRecurrenceChange}
+                onChange={handleRecurrenceTextFieldChange}
               />
             )}
             <DatePicker
               label="Recurrence End Date"
-              value={values.recurrence_rule.end_date}
+              value={
+                values.recurrence_rule.end_date
+                  ? typeof values.recurrence_rule.end_date === 'string'
+                    ? values.recurrence_rule.end_date.length > 0
+                      ? parseISO(values.recurrence_rule.end_date)
+                      : null
+                    : values.recurrence_rule.end_date
+                  : null
+              }
               onChange={(date) => handleRecurrenceDateChange('end_date', date)}
               slotProps={{
                 textField: {

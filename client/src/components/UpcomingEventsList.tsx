@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getEvents, deleteEvent } from '../api/events';
 import { List, ListItem, ListItemText, Typography, Box, CircularProgress, Alert, IconButton, Snackbar } from '@mui/material';
-import type { SnackbarCloseReason } from '@mui/material/Snackbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAuth } from '../context/AuthContext';
 
@@ -87,7 +86,10 @@ const UpcomingEventsList: React.FC = () => {
    * @param _event - The event triggering the close (optional).
    * @param reason - The reason for closing the snackbar (optional).
    */
-  const handleCloseSnackbar = (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+  const handleCloseSnackbar = (
+    _event: React.SyntheticEvent<Element, Event>,
+    reason?: string
+  ) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -122,9 +124,9 @@ const UpcomingEventsList: React.FC = () => {
           ))}
         </List>
       )}
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar as any}>
         <Alert
-          onClose={handleCloseSnackbar}
+          onClose={handleCloseSnackbar as any}
           severity={snackbarSeverity}
           sx={{ width: '100%' }}
         >

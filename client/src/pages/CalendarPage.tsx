@@ -282,25 +282,67 @@ const CalendarPage: React.FC = () => {
       sx={{
         p: { xs: 1, sm: 2, md: 3 },
         width: '100%',
-        maxWidth: { xs: '100%', sm: 600, md: 900 },
+        maxWidth: '100%',
         mx: 'auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        overflowX: 'hidden',
+        boxSizing: 'border-box',
+
       }}
     >
-      <Typography variant="h4" gutterBottom align="center">Calendar</Typography>
+      <Typography
+        variant="h4"
+        gutterBottom
+        align="center"
+        sx={{
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          textAlign: 'center',
+        }}
+      >
+        Calendar
+      </Typography>
+
       <Button
         variant="contained"
         startIcon={<AddIcon />}
         onClick={handleOpenCreateModal}
-        sx={{ mb: 2, alignSelf: 'center' }}
+        sx={{
+          mb: 2,
+          alignSelf: { xs: 'center', sm: 'flex-start' },
+          width: { xs: '100%', sm: 'auto' },
+        }}
         disabled={!isAuthenticated || authLoading}
       >
         Create New Event
       </Button>
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Box sx={{ width: '100%', minWidth: 0 }}>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
+          {error}
+        </Alert>
+      )}
+
+      <Box
+        sx={{
+          width: '100%',
+          overflowX: 'auto',
+          '& .fc-toolbar': {
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            gap: 1,
+          },
+          '& .fc-button': {
+            minWidth: '32px',
+            padding: '4px 8px',
+            fontSize: { xs: '0.75rem', sm: '0.875rem' }, 
+          },
+          '& .fc-toolbar-title': {
+            fontSize: { xs: '1rem', sm: '1.25rem' },
+          },
+        }}
+      >
         <Calendar
           events={events}
           onEventClick={handleEventClick}
@@ -309,6 +351,7 @@ const CalendarPage: React.FC = () => {
         />
       </Box>
 
+      {/* Create Modal */}
       <Modal
         aria-labelledby="create-event-modal-title"
         aria-describedby="create-event-modal-description"
@@ -323,12 +366,19 @@ const CalendarPage: React.FC = () => {
         }}
       >
         <Fade in={createModalOpen}>
-          <Box sx={style}>
+          <Box
+            sx={{
+              ...style,
+              width: { xs: '90%', sm: 500 },
+              maxWidth: '100%',
+            }}
+          >
             <EventForm onSubmit={handleCreateSubmit} submitText="Create" />
           </Box>
         </Fade>
       </Modal>
 
+      {/* Edit Modal */}
       <Modal
         aria-labelledby="edit-event-modal-title"
         aria-describedby="edit-event-modal-description"
@@ -343,27 +393,51 @@ const CalendarPage: React.FC = () => {
         }}
       >
         <Fade in={editModalOpen}>
-          <Box sx={style}>
-            {editingEvent && <EventForm initialValues={editingEvent} onSubmit={handleEditSubmit} submitText="Update" />}
+          <Box
+            sx={{
+              ...style,
+              width: { xs: '90%', sm: 500 },
+              maxWidth: '100%',
+            }}
+          >
+            {editingEvent && (
+              <EventForm
+                initialValues={editingEvent}
+                onSubmit={handleEditSubmit}
+                submitText="Update"
+              />
+            )}
           </Box>
         </Fade>
       </Modal>
 
+      {/* Delete Confirmation Dialog */}
       <Dialog
         open={deleteConfirmOpen}
         onClose={handleCloseDeleteConfirm}
         aria-labelledby="delete-confirm-dialog-title"
         aria-describedby="delete-confirm-dialog-description"
+        fullWidth
+        maxWidth="xs"
       >
         <DialogTitle id="delete-confirm-dialog-title">Confirm Deletion</DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-confirm-dialog-description">
-            Are you sure you want to delete this {eventToDelete?.isRecurringInstance ? 'event occurrence' : 'event series'}?
+            Are you sure you want to delete this{' '}
+            {eventToDelete?.isRecurringInstance ? 'event occurrence' : 'event series'}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDeleteConfirm}>Cancel</Button>
-          <Button onClick={eventToDelete?.isRecurringInstance ? handleDeleteInstance : handleDeleteSeries} autoFocus color="error">
+          <Button
+            onClick={
+              eventToDelete?.isRecurringInstance
+                ? handleDeleteInstance
+                : handleDeleteSeries
+            }
+            autoFocus
+            color="error"
+          >
             Delete
           </Button>
         </DialogActions>
