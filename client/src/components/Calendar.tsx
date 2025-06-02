@@ -3,21 +3,34 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import type { EventClickArg, EventDropArg } from '@fullcalendar/core'; // Import types from @fullcalendar/core
-import './/calendar.css'; // Import custom calendar styles
-// Remove explicit CSS imports as FullCalendar v6 injects styles
-// import '@fullcalendar/react/main.css';
-// import '@fullcalendar/core/main.css';
-// import '@fullcalendar/daygrid/main.css';
-// import '@fullcalendar/timegrid/main.css';
+import type { EventClickArg, EventDropArg } from '@fullcalendar/core';
+import './calendar.css';
 
+/**
+ * Props for the Calendar component, integrating FullCalendar for event scheduling.
+ */
 interface CalendarProps {
+  /** List of events to display on the calendar */
   events?: any[];
+  /** Callback triggered when an event is clicked */
   onEventClick?: (arg: EventClickArg) => void;
+  /** Callback triggered when an event is dragged and dropped */
   onEventDrop?: (arg: EventDropArg) => void;
+  /** Height of the calendar (defaults to 'auto') */
+  height?: string | number;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events = [], onEventClick, onEventDrop }) => {
+/**
+ * Calendar component for displaying and interacting with events.
+ * Supports viewing events in a monthly grid, editing via drag-and-drop, and clicking for further actions.
+ * @param props - Component props including events and interaction callbacks.
+ */
+const Calendar: React.FC<CalendarProps> = ({
+  events = [],
+  onEventClick,
+  onEventDrop,
+  height = 'auto',
+}) => {
   return (
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -25,7 +38,7 @@ const Calendar: React.FC<CalendarProps> = ({ events = [], onEventClick, onEventD
       editable={true}
       selectable={true}
       events={events}
-      height="auto"
+      height={height}
       eventClick={onEventClick}
       eventDrop={onEventDrop}
     />
