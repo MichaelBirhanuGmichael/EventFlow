@@ -52,7 +52,7 @@ class LoginView(APIView):
             'access': str(refresh.access_token),
         }, status=status.HTTP_200_OK)
 
-class LogoutView(ApiView):
+class LogoutView(APIView):
     """
     API view for user logout, invalidating the user's session.
     Supports user logout requirements (US-13).
