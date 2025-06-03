@@ -1,7 +1,6 @@
 # EventFlow – Event Scheduler with Complex Recurrence
 
-**Submission by Michael Birhanu**  
-*Completed: June 2, 2025, 04:51 PM EAT*
+
 
 ## Technology Stack
 
